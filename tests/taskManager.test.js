@@ -45,3 +45,14 @@ test('Parse "-" input', (t) => {
     t.equal(manager.listTasks.length, 0);
     t.end();
 });
+
+test('Parse "x" input', (t) => {
+
+    const console = new ConsoleInteractorTest(['+ description', 'x 1']);
+    const manager = new TaskManager(console);
+    manager.mainLoop();
+
+    t.ok(manager.listTasks[0].state);
+    t.end();
+});
+
