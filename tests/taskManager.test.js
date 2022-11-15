@@ -5,7 +5,7 @@ class ConsoleInteractorTest {
 
     constructor(inputs) {
         this.listInputs = inputs;
-        this.printedTasks = [];
+        this.printedElements = [];
     }
 
     readInput () {
@@ -14,8 +14,12 @@ class ConsoleInteractorTest {
 
     printList(list) {
         list.forEach((task) => {
-            this.printedTasks.push(`${task.id} [${task.state ? 'X': ' '}] ${task.description}`)       
+            this.printedElements.push(`${task.id} [${task.state ? 'X': ' '}] ${task.description}`)       
         });
+    }
+
+    bye() {
+        this.printedElements.push("Bye!")
     }
 }
 
@@ -32,7 +36,7 @@ test('Parse "+" input', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedTasks[0], '1 [ ] description');
+    t.equal(manager.console.printedElements[0], '1 [ ] description');
     t.end();
 })
 
@@ -62,7 +66,7 @@ test('Trying x display', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedTasks[1], '1 [X] description');
+    t.equal(manager.console.printedElements[1], '1 [X] description');
     t.end();
 });
 
@@ -82,7 +86,7 @@ test('Trying o display', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedTasks[1], '1 [ ] description');
+    t.equal(manager.console.printedElements[1], '1 [ ] description');
     t.end();
 });
 
@@ -92,6 +96,6 @@ test('q command', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedTasks[manager.console.printedTasks.length - 1], 'Bye!');
+    t.equal(manager.console.printedElements[manager.console.printedElements.length - 1], 'Bye!');
     t.end();
 });

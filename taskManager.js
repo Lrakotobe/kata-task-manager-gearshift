@@ -13,6 +13,10 @@ class ConsoleInteractor {
             console.log(`${task.id} [${task.state ? 'X': ' '}] ${task.description}`);
         });
     }
+
+    bye() {
+        console.log("Bye!");
+    }
 }
 
 class TaskManager {
@@ -58,6 +62,10 @@ class TaskManager {
                 this.do(argument)
             else if (command === 'o')
                 this.undo(argument)
+            else if (command === 'q') {
+                this.console.bye();
+                break;
+            }
                 
             this.console.printList(this.listTasks);
         }
