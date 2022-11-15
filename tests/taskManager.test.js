@@ -99,3 +99,40 @@ test('q command', (t) => {
     t.equal(manager.console.printedElements[manager.console.printedElements.length - 1], 'Bye!');
     t.end();
 });
+
+test('Normal usage', (t) => {
+
+    const console = new ConsoleInteractorTest(['+ task 1', '+ task 2', '+ task 3', 'x 2', 'x 3', 'o 2', 'q']);
+    const manager = new TaskManager(console);
+    manager.mainLoop();
+
+    const expectedOutputs = [
+        '1 [ ] task 1', 
+        '1 [ ] task 1',
+        '2 [ ] task 2', 
+        '1 [ ] task 1',
+        '2 [ ] task 2', 
+        '3 [ ] task 3',
+        '1 [ ] task 1', 
+        '2 [X] task 2',
+        '3 [ ] task 3', 
+        '1 [ ] task 1',
+        '2 [X] task 2', 
+        '3 [X] task 3',
+        '1 [ ] task 1', 
+        '2 [ ] task 2',
+        '3 [X] task 3', 
+        'Bye!'
+    ];
+    
+    let isCorrect = true;
+    manager.console.printedElements.forEach((printedElement, index) => {
+
+        if (printedElement === expectedOutputs[index]) return;
+
+        isCorrect = false;
+    })
+
+    t.ok(isCorrect);
+    t.end();
+})

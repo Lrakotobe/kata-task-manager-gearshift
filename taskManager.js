@@ -64,6 +64,7 @@ class TaskManager {
                 this.undo(argument)
             else if (command === 'q') {
                 this.console.bye();
+                console.log(this.console.printedElements);
                 break;
             }
                 
