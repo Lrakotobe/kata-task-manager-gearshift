@@ -85,3 +85,13 @@ test('Trying o display', (t) => {
     t.equal(manager.console.printedTasks[1], '1 [ ] description');
     t.end();
 });
+
+test('q command', (t) => {
+
+    const console = new ConsoleInteractorTest(['+ description', 'o 1', 'q']);
+    const manager = new TaskManager(console);
+    manager.mainLoop();
+
+    t.equal(manager.console.printedTasks[manager.console.printedTasks.length - 1], 'Bye!');
+    t.end();
+});
