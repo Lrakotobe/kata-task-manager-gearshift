@@ -30,6 +30,13 @@ test('Got empty list at initialization', (t) => {
     t.end();
 })
 
+test('Display empty list at initialization', (t) => {
+
+    const manager = new TaskManager();
+    t.equal(manager.console.printedElements[0], "No task yet");
+    t.end();
+})
+
 test('Parse "+" input', (t) => {
 
     const console = new ConsoleInteractorTest(['+ description']);
