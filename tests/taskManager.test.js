@@ -36,10 +36,12 @@ test('Parse "+" input', (t) => {
     t.end();
 })
 
-test('Parse inputs', (t) => {
+test('Parse "-" input', (t) => {
 
-    const inputs = ['+', '-', 'x', 'o', 'q'];
+    const console = new ConsoleInteractorTest(['+ description', '- 1']);
+    const manager = new TaskManager(console);
+    manager.mainLoop();
 
-
+    t.equal(manager.console.printedTasks.length, 0);
     t.end();
 });
