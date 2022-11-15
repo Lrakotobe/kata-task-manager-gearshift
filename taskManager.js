@@ -32,6 +32,10 @@ class TaskManager {
         this.listTasks.splice(id - 1, 1);
     }
 
+    do(id) {
+        this.listTasks[id - 1].state = true;
+    }
+
     mainLoop() {
 
         while (true) {
@@ -43,9 +47,11 @@ class TaskManager {
             const argument = input.substring(2, input.length);
     
             if (command === '+')
-                this.addTask(argument);
+                this.addTask(argument)
             else if (command === '-') 
-                this.removeTask(argument);
+                this.removeTask(argument)
+            else if (command === 'x')
+                this.do(argument)
                 
             this.console.printList(this.listTasks);
         }
