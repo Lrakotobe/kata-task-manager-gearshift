@@ -28,16 +28,27 @@ class TaskManager {
         this.listTasks.push(new Task(this.counter, description));
     }
 
+    removeTask(id) {
+        this.listTasks.splice(id - 1, 1);
+    }
+
     mainLoop() {
 
-        const input = this.console.readInput();
-        const command = input.substring(0, 1);
-        const description = input.substring(2, input.length);
+        while (true) {
 
-        if (command === '+')
-            this.addTask(description);
+            const input = this.console.readInput();
+            if (!input) break;
 
-        this.console.printList(this.listTasks);
+            const command = input.substring(0, 1);
+            const argument = input.substring(2, input.length);
+    
+            if (command === '+')
+                this.addTask(argument);
+            else if (command === '-') 
+                this.removeTask(argument);
+                
+            this.console.printList(this.listTasks);
+        }
     }
 }
 

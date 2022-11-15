@@ -42,6 +42,6 @@ test('Parse "-" input', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedTasks.length, 0);
+    t.equal(manager.listTasks.length, 0);
     t.end();
 });
