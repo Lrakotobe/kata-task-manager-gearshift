@@ -56,3 +56,12 @@ test('Parse "x" input', (t) => {
     t.end();
 });
 
+test('Trying x display', (t) => {
+
+    const console = new ConsoleInteractorTest(['+ description', 'x 1']);
+    const manager = new TaskManager(console);
+    manager.mainLoop();
+
+    t.equal(manager.console.printedTasks[1], '1 [X] description');
+    t.end();
+});
