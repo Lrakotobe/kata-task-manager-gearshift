@@ -13,13 +13,21 @@ class ConsoleInteractorTest {
     }
 
     printList(list) {
+
+        if (!list.length) {
+            this.printedElements.push(['No task yet']);
+            return; 
+        } 
+
+        const listToPrint = [];
         list.forEach((task) => {
-            this.printedElements.push(`${task.id} [${task.state ? 'X': ' '}] ${task.description}`)       
+            listToPrint.push(`${task.id} [${task.state ? 'X': ' '}] ${task.description}`)       
         });
+        this.printedElements.push(listToPrint);
     }
 
     bye() {
-        this.printedElements.push("Bye!")
+        this.printedElements.push(["Bye!"])
     }
 }
 
@@ -32,8 +40,10 @@ test('Got empty list at initialization', (t) => {
 
 test('Display empty list at initialization', (t) => {
 
-    const manager = new TaskManager();
-    t.equal(manager.console.printedElements[0], "No task yet");
+    const console = new ConsoleInteractorTest([]);
+    const manager = new TaskManager(console);
+    manager.mainLoop();
+    t.equal(manager.console.printedElements[0][0], "No task yet");
     t.end();
 })
 
@@ -43,7 +53,7 @@ test('Parse "+" input', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedElements[0], '1 [ ] description');
+    t.equal(manager.console.printedElements[1][0], '1 [ ] description');
     t.end();
 })
 
@@ -73,7 +83,7 @@ test('Trying x display', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedElements[1], '1 [X] description');
+    t.equal(manager.console.printedElements[2][0], '1 [X] description');
     t.end();
 });
 
@@ -93,7 +103,7 @@ test('Trying o display', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedElements[2], '1 [ ] description');
+    t.equal(manager.console.printedElements[3][0], '1 [ ] description');
     t.end();
 });
 
@@ -103,41 +113,36 @@ test('q command', (t) => {
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedElements[manager.console.printedElements.length - 1], 'Bye!');
+    t.equal(manager.console.printedElements[manager.console.printedElements.length - 1][0], 'Bye!');
     t.end();
 });
 
-test('Normal usage', (t) => {
+test('Normal use case', (t) => {
 
     const console = new ConsoleInteractorTest(['+ task 1', '+ task 2', '+ task 3', 'x 2', 'x 3', 'o 2', 'q']);
     const manager = new TaskManager(console);
     manager.mainLoop();
 
     const expectedOutputs = [
-        '1 [ ] task 1', 
-        '1 [ ] task 1',
-        '2 [ ] task 2', 
-        '1 [ ] task 1',
-        '2 [ ] task 2', 
-        '3 [ ] task 3',
-        '1 [ ] task 1', 
-        '2 [X] task 2',
-        '3 [ ] task 3', 
-        '1 [ ] task 1',
-        '2 [X] task 2', 
-        '3 [X] task 3',
-        '1 [ ] task 1', 
-        '2 [ ] task 2',
-        '3 [X] task 3', 
-        'Bye!'
+        [ 'No task yet' ], // Debut
+        [ '1 [ ] task 1' ], // + task 1
+        [ '1 [ ] task 1', '2 [ ] task 2' ], // + task 2
+        [ '1 [ ] task 1', '2 [ ] task 2', '3 [ ] task 3' ], // + task 3
+        [ '1 [ ] task 1', '2 [X] task 2', '3 [ ] task 3' ], // x 2
+        [ '1 [ ] task 1', '2 [X] task 2', '3 [X] task 3' ], // x 3
+        [ '1 [ ] task 1', '2 [ ] task 2', '3 [X] task 3' ], // o 2
+        ['Bye!'] // q
     ];
     
     let isCorrect = true;
-    manager.console.printedElements.forEach((printedElement, index) => {
+    manager.console.printedElements.forEach((listTasks, indexArrays) => {
 
-        if (printedElement === expectedOutputs[index]) return;
+        listTasks.forEach((task, indexTask) => {
+            
+            if (task === expectedOutputs[indexArrays][indexTask]) return;
 
-        isCorrect = false;
+            isCorrect = false;
+        })
     })
 
     t.ok(isCorrect);

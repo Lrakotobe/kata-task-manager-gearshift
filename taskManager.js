@@ -9,9 +9,19 @@ class ConsoleInteractor {
     }
   
     printList (list) {
+
+        if (!list.length) {
+            console.log('No task yet');
+            return; 
+        }
+
         list.forEach((task) => {
             console.log(`${task.id} [${task.state ? 'X': ' '}] ${task.description}`);
         });
+    }
+
+    hello() {
+        console.log("No task yet")
     }
 
     bye() {
@@ -46,6 +56,8 @@ class TaskManager {
 
     mainLoop() {
 
+        this.console.printList(this.listTasks);
+
         while (true) {
 
             const input = this.console.readInput();
@@ -64,7 +76,6 @@ class TaskManager {
                 this.undo(argument)
             else if (command === 'q') {
                 this.console.bye();
-                console.log(this.console.printedElements);
                 break;
             }
                 
