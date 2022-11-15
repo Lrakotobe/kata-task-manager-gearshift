@@ -65,3 +65,23 @@ test('Trying x display', (t) => {
     t.equal(manager.console.printedTasks[1], '1 [X] description');
     t.end();
 });
+
+test('Parse "o" input', (t) => {
+
+    const console = new ConsoleInteractorTest(['+ description', 'o 1']);
+    const manager = new TaskManager(console);
+    manager.mainLoop();
+
+    t.notok(manager.listTasks[0].state);
+    t.end();
+});
+
+test('Trying o display', (t) => {
+
+    const console = new ConsoleInteractorTest(['+ description', 'o 1']);
+    const manager = new TaskManager(console);
+    manager.mainLoop();
+
+    t.equal(manager.console.printedTasks[1], '1 [ ] description');
+    t.end();
+});
