@@ -72,7 +72,7 @@ test('Trying x display', (t) => {
 
 test('Parse "o" input', (t) => {
 
-    const console = new ConsoleInteractorTest(['+ description', 'o 1']);
+    const console = new ConsoleInteractorTest(['+ description', 'x 1', 'o 1']);
     const manager = new TaskManager(console);
     manager.mainLoop();
 
@@ -82,17 +82,17 @@ test('Parse "o" input', (t) => {
 
 test('Trying o display', (t) => {
 
-    const console = new ConsoleInteractorTest(['+ description', 'o 1']);
+    const console = new ConsoleInteractorTest(['+ description', 'x 1', 'o 1']);
     const manager = new TaskManager(console);
     manager.mainLoop();
 
-    t.equal(manager.console.printedElements[1], '1 [ ] description');
+    t.equal(manager.console.printedElements[2], '1 [ ] description');
     t.end();
 });
 
 test('q command', (t) => {
 
-    const console = new ConsoleInteractorTest(['+ description', 'o 1', 'q']);
+    const console = new ConsoleInteractorTest(['+ description', 'x 1', 'o 1', 'q']);
     const manager = new TaskManager(console);
     manager.mainLoop();
 
