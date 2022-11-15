@@ -36,6 +36,10 @@ class TaskManager {
         this.listTasks[id - 1].state = true;
     }
 
+    undo(id) {
+        this.listTasks[id - 1].state = false;
+    }
+
     mainLoop() {
 
         while (true) {
@@ -52,6 +56,8 @@ class TaskManager {
                 this.removeTask(argument)
             else if (command === 'x')
                 this.do(argument)
+            else if (command === 'o')
+                this.undo(argument)
                 
             this.console.printList(this.listTasks);
         }
