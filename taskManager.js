@@ -1,5 +1,4 @@
-// const Task = require('task');
-
+const prompt = require('prompt-sync')()
 const Task = require("./task");
 
 class ConsoleInteractor {
@@ -84,4 +83,4 @@ class TaskManager {
     }
 }
 
-module.exports = TaskManager;
+module.exports = {TaskManager, ConsoleInteractor};
